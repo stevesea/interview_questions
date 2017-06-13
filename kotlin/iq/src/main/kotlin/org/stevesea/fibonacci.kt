@@ -1,7 +1,5 @@
 package org.stevesea
 
-import java.util.*
-
 
 fun fib_recursive(n: Int) : Int =
     when (n) {
