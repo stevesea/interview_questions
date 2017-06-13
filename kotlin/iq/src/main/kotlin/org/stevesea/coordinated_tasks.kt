@@ -42,22 +42,22 @@ fun coordinated_threads(nTasks: Int) {
     // uses 'fair' locking, which'll grant access to the queue in FIFO order
     val q = ArrayBlockingQueue<Int>(1, true)
 
-    // make sure we've got enough threads for all tasks to be running simultaneously
     val executorService = Executors.newScheduledThreadPool(nTasks)
 
-    // submit N tasks to be repeatedly run by the exec service
+    // submit N tasks to be repeatedly run by the executor
     (1..nTasks).forEach { i ->
-        // schedule each thread to be run. after run, delay 1ms.
-        executorService.scheduleWithFixedDelay(MyThread(i, q),
-                0,1,TimeUnit.MILLISECONDS)
+        // schedule each thread to be run. after each task runs, delay 1ms.
+        executorService.scheduleWithFixedDelay(
+                MyThread(i, q),
+                0, 1, TimeUnit.MILLISECONDS)
 
-        // this delay seems hokey... but, it helped to ensure that the execservice actually starts each task
+        // this delay seems a bit hokey... but, it helped to ensure that the execservice actually starts each task
         // in the expected order. otherwise, seemed to be non-determinisitc (linux/java7 seemed better behaved
         // than windows/java8)
         TimeUnit.MILLISECONDS.sleep(1L)
     }
 
-    // set initial value into queue, the first task will finally stop waiting.
+    // put an initial value into queue
     q.put(1)
 
     // wait on the main thread, allow the tasks to do their thing.
