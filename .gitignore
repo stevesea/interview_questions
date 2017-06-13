@@ -1,0 +1,5 @@
+
+kotlin/iq/\.idea/
+kotlin/iq/target/
+
+*.iml
