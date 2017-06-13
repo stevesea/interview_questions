@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit
  *  clarifications:
  *      - tasks should always output in that order   (t1, t2, t3)
  *      - tasks assigned IDs at construction
+ *      - tasks finished by cntrl-C or whatever (don't need to send shutdown signal)
  */
 
 
@@ -31,6 +32,7 @@ class MyThread(
         queue.put(item + 1)
     }
 }
+
 fun coordinated_threads(nTasks: Int) {
 
     val q = ArrayBlockingQueue<Int>(1, true)
