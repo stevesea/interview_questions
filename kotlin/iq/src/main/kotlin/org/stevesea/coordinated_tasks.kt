@@ -27,7 +27,8 @@ class MyThread(
         val tId: Int,
         val queue: BlockingQueue<Int>) : Runnable {
     override fun run() {
-        val item = queue.take()     // retrieve/remove, waiting if necessary
+        // retrieve item from queue, waiting if necessary
+        val item = queue.take()
         println("t$tId: val: $item")
         queue.put(item + 1)
     }
@@ -38,15 +39,18 @@ fun coordinated_threads(nTasks: Int) {
     // uses 'fair' locking, which'll grant access in FIFO order
     val q = ArrayBlockingQueue<Int>(1, true)
 
-    // make sure we've got threads for all tasks to be running simultaneously
+    // make sure we've got enough threads for all tasks to be running simultaneously
     val executorService = Executors.newScheduledThreadPool(nTasks)
 
-    // submit N tasks to be repeatedly run by the exec service 
-    //    each task has a incremented initialdelay (seems hokey)
+    // submit N tasks to be repeatedly run by the exec service
+    //
+    // initial delay seems hokey... but, it helped to ensure that the execservice actually starts each task
+    // in the expected order. otherwise, seemed to be non-determinisitc. Even using initial-delay of zero
+    // worked on linux/java7 but not windows/java8
     (1..nTasks).forEach { i ->
         // schedule thread to be run immediately
         executorService.scheduleWithFixedDelay(MyThread(i, q),
-                i.toLong()*2,15,TimeUnit.MILLISECONDS)
+                2,15,TimeUnit.MILLISECONDS)
     }
 
     // set initial value into queue, the first task will finally stop waiting.
