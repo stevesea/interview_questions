@@ -11,14 +11,6 @@ package org.stevesea
 
 
 // if want real memoization, look at funktionale library
-val fibCache = mutableMapOf<Long, Long>()
-
-fun fib_recursive_memoized(n: Long) : Long  {
-    return fibCache.computeIfAbsent(n, {
-        n -> fib_recursive(n)
-    })
-}
-
 
 fun fib_recursive(n: Long) : Long =
     when (n) {

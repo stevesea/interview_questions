@@ -29,26 +29,20 @@ class FibTest {
         Assert.assertEquals(21, fib_iterative(8))
     }
     @Test
-    fun fibMemoized() {
+    fun fibTimed() {
 
         run {
             val start = System.nanoTime()
             Assert.assertEquals(102334155, fib_recursive(40))
             val end = System.nanoTime()
-            println("recursive: ${end - start}ns")
+            println("fib recursive: ${end - start}ns")
         }
 
         run {
             val start = System.nanoTime()
-            Assert.assertEquals(102334155, fib_recursive_memoized(40))
-            val end = System.nanoTime()
-            println("memoized : ${end - start}ns")
-        }
-        run {
-            val start = System.nanoTime()
             Assert.assertEquals(102334155, fib_iterative(40))
             val end = System.nanoTime()
-            println("iterative: ${end - start}ns")
+            println("fib iterative: ${end - start}ns")
         }
     }
 }

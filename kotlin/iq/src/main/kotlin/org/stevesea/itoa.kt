@@ -20,7 +20,7 @@ fun itoaDecimal(num: Int) : String {
 
         chars.add(0, '0' + d)
 
-    } while ( r != alwaysPosNum)
+    } while ( r != alwaysPosNum )
 
     if (isNeg)
         chars.add(0, '-')
