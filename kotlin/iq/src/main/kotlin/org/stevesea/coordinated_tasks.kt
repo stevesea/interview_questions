@@ -52,7 +52,7 @@ fun coordinated_threads(nTasks: Int) {
                 0, 1, TimeUnit.MILLISECONDS)
 
         // this delay seems a bit hokey... but, it helped to ensure that the execservice actually starts each task
-        // in the expected order. otherwise, seemed to be non-determinisitc (linux/java7 seemed better behaved
+        // in the submitted order. otherwise, seemed to be non-determinisitc (linux/java7 seemed better behaved
         // than windows/java8)
         TimeUnit.MILLISECONDS.sleep(1L)
     }
