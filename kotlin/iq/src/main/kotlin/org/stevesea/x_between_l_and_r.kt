@@ -17,12 +17,10 @@ fun summed_powers_in_range(l: Int, r: Int): Int {
     powers.add(1)
 
     for (b in 2..r) {
-        if (Math.pow(b.toDouble(), 2.0) > r)
-            break
         for (q in 2..r) {
             val p = Math.pow(b.toDouble(), q.toDouble()).toInt()
-            if (p >= r) {
-                // don't bother adding any power that's already greater than R
+            if (p > r) {
+                // don't bother adding any power that's greater than R, and exit inner loop
                 break
             }
             powers.add(p)

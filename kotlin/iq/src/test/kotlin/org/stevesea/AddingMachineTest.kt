@@ -24,10 +24,12 @@ class AddingMachineTest {
     fun badInput1() {
         Assert.assertEquals(0, adding_machine(listOf("5", "+", "+", "-5")))
     }
+
     @Test(expected = NumberFormatException::class)
     fun badInput2() {
         Assert.assertEquals(0, adding_machine(listOf("5", "+", "-", "-5")))
     }
+
     @Test(expected = NumberFormatException::class)
     fun badInput3() {
         Assert.assertEquals(0, adding_machine(listOf("+", "-5")))
