@@ -26,6 +26,10 @@ class RleCompressStringTest {
     fun decompress() {
         Assert.assertEquals("sssccoooooppps", rle_decompress("s3c2o5p3s1"))
     }
+    @Test
+    fun decompressLong() {
+        Assert.assertEquals("sssccccccccccooooopppssssssssss", rle_decompress("s3c10o5p3s10"))
+    }
 
     @Test
     fun decompress2() {

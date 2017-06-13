@@ -47,38 +47,28 @@ fun rle_decompress(inStr: String) : String {
     if (inStr.isBlank())
         return inStr
 
-    var curChar: Char? = null
-    val accumDigits = mutableListOf<Char>()
+    var i = 0
+    while (i < inStr.length) {
+        var j = i + 1
+        while (j < inStr.length) {
+            val c = inStr[j]
+            if (!c.isDigit())
+                break
+            j++
+        }
+        val c = inStr[i]
+        if (j == i+1) {
+            // no number or at end of string, just tack on the char
+            sb.append(c)
+        } else {
+            val numStr = inStr.substring(i+1, j)
+            val num = numStr.toInt()
+            (1..num).forEach {
+                sb.append(c)
+            }
+        }
 
-    inStr.forEach { c ->
-        if (c.isDigit()) {
-            accumDigits.add(c)
-        } else {
-            if (curChar != null) {
-                if (accumDigits.isNotEmpty()) {
-                    // we've finished accumulating digits and have landed on a new letter
-                    val n = accumDigits.joinToString("").toInt()
-                    (1..n).forEach {
-                        sb.append(curChar ?: "")
-                    }
-                    accumDigits.clear()
-                } else {
-                    sb.append(curChar ?: "")
-                }
-            }
-            // whether this is first letter or not, need to swap to new char
-            curChar = c
-        }
-    }
-    if (curChar != null) {
-        if (accumDigits.isNotEmpty()) {
-            val n = accumDigits.joinToString("").toInt()
-            (1..n).forEach {
-                sb.append(curChar ?: "")
-            }
-        } else {
-            sb.append(curChar ?: "")
-        }
+        i = j
     }
 
     return sb.toString()
