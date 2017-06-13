@@ -10,7 +10,6 @@ fun fib_recursive(n: Int) : Int =
         else -> fib_recursive(n-2) + fib_recursive(n-1)
     }
 
-
 fun fib_iterative(n: Int): Int {
     if (n == 0) return 0
     if (n == 1) return 1
@@ -18,7 +17,6 @@ fun fib_iterative(n: Int): Int {
     var prevPrev = 0
     var prev = 1
     var result = 0
-    
 
     for (i in 2..n) {
         result = prev + prevPrev
