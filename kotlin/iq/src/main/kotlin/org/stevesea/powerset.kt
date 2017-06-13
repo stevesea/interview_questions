@@ -10,7 +10,6 @@ package org.stevesea
  *
  */
 
-
 fun powerset(s: Set<Any>) : Set<Set<Any>> {
     var powersets = mutableSetOf<Set<Any>>()
 
@@ -28,7 +27,7 @@ fun powerset(s: Set<Any>) : Set<Set<Any>> {
             newset.addAll(pset)
             newps.add(newset)
         }
-        
+
         powersets = newps
     }
 
