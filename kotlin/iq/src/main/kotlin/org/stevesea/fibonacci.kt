@@ -1,5 +1,13 @@
 package org.stevesea
 
+//
+// the usual
+//
+//   0,1,1,2,3,5,8,13,21,34
+//
+//  f(x) = f(n-1) + f(n-2)
+//
+//
 
 fun fib_recursive(n: Int) : Int =
     when (n) {

@@ -1,5 +1,8 @@
 package org.stevesea
 
+/**
+ * reverse a string... der
+ */
 fun strReverse(inStr: String) : String {
     val sb = StringBuilder()
     

@@ -1,6 +1,8 @@
 package org.stevesea
 
 // impl algorithm similar to itoa
+//   input: integer
+//   output: that integer output as decimal # in string
 fun itoaDecimal(num: Int) : String {
 
     val chars = mutableListOf<Char>()

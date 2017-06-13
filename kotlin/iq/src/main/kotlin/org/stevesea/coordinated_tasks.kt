@@ -35,19 +35,21 @@ class MyThread(
 
 fun coordinated_threads(nTasks: Int) {
 
+    // uses 'fair' locking, which'll grant access in FIFO order
     val q = ArrayBlockingQueue<Int>(1, true)
 
-    val executorService = Executors.newScheduledThreadPool(nTasks*2)
+    // make sure we've got threads for all tasks to be running simultaneously
+    val executorService = Executors.newScheduledThreadPool(nTasks)
 
     // submit N tasks to be repeatedly run by the exec service 
     //    each task has a incremented initialdelay (seems hokey)
-    for (i in 1..nTasks) {
+    (1..nTasks).forEach { i ->
         // schedule thread to be run immediately
         executorService.scheduleWithFixedDelay(MyThread(i, q),
-                i.toLong(),10,TimeUnit.MILLISECONDS)
+                i.toLong()*2,15,TimeUnit.MILLISECONDS)
     }
 
-    // set initial value into queue
+    // set initial value into queue, the first task will finally stop waiting.
     q.put(1)
 
     TimeUnit.MILLISECONDS.sleep(100)
