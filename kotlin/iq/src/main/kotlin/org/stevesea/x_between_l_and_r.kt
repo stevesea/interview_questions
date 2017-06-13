@@ -16,6 +16,7 @@ fun summed_powers_in_range(l: Int, r: Int): Int {
     powers.add(0)
     powers.add(1)
 
+    // accumulate a bunch of powers into the list
     for (b in 2..r) {
         for (q in 2..r) {
             val p = Math.pow(b.toDouble(), q.toDouble()).toInt()
