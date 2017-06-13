@@ -1,6 +1,5 @@
 package org.stevesea
 
-import java.util.*
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.Executors
@@ -25,34 +24,31 @@ import java.util.concurrent.TimeUnit
 
 class MyThread(
         val tId: Int,
-        val queue: BlockingQueue<Optional<Int>>) : Runnable {
-
+        val queue: BlockingQueue<Int>) : Runnable {
     override fun run() {
-        while (true) {
-            val i = queue.take()
-            println("t$tId: val: ${i.get()}")
-            queue.put(Optional.of(i.get() + 1))
-
-            // brief wait so that this thread doesn't immediately grab the item off the queue
-            TimeUnit.MILLISECONDS.sleep(1)
-        }
+        val item = queue.take()     // retrieve/remove, waiting if necessary
+        println("t$tId: val: $item")
+        queue.put(item + 1)
     }
 }
 fun coordinated_threads(nTasks: Int) {
 
-    val q = ArrayBlockingQueue<Optional<Int>>(1, true)
+    val q = ArrayBlockingQueue<Int>(1, true)
 
-    val executorService = Executors.newFixedThreadPool(5)
+    val executorService = Executors.newScheduledThreadPool(nTasks*2)
 
-    // submit N tasks, all tasks should be waiting on queue
+    // submit N tasks to be repeatedly run by the exec service 
+    //    each task has a incremented initialdelay (seems hokey)
     for (i in 1..nTasks) {
-        val f = executorService.submit(MyThread(i, q))
+        // schedule thread to be run immediately
+        executorService.scheduleWithFixedDelay(MyThread(i, q),
+                i.toLong(),10,TimeUnit.MILLISECONDS)
     }
 
     // set initial value into queue
-    q.put(Optional.of(1))
+    q.put(1)
 
-    TimeUnit.MILLISECONDS.sleep(50)
+    TimeUnit.MILLISECONDS.sleep(100)
 
     println("Shutting down all threads...")
     executorService.shutdownNow()
