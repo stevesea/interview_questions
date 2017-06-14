@@ -39,7 +39,8 @@ Maybe use them as examples in future (or use to explore other programming langua
     * p,q > 1
 1. reverse a string
 1. fibonacci
-1. implement itoa
+1. implement itoa       
+1. pivot index of int list
 
 ## todo 
 1. in java, create a REST GET API that validates word is palindrome. 
