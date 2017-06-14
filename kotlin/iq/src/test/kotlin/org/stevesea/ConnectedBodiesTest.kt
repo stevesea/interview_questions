@@ -17,6 +17,18 @@ class ConnectedBodiesTest {
         val bf = BodyFinder(5,elevmap)
         Assert.assertEquals(listOf(1,1,1,3,4), bf.findBodies())
     }
+    @Test
+    fun test2() {
+        val elevmap = listOf(
+                listOf(5,5,1,2,1),
+                listOf(1,5,1,1,5),
+                listOf(5,1,2,5,5),
+                listOf(1,1,3,1,1),
+                listOf(5,1,5,1,5)
+        )
+        val bf = BodyFinder(5,elevmap)
+        Assert.assertEquals(listOf<Int>(), bf.findBodies())
+    }
 
 }
 
