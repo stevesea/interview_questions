@@ -6,6 +6,10 @@ import java.util.*
  * problem:
  *  given 2D matrix of integers, find connected bodies that have value 0
  *
+ * input: 2d matrix of ints
+ * output: sorted list of sizes of discovered bodies of water
+ *
+ * 'connected' cells can be any adjacent cell (diagonals too)
  *
  */
 
