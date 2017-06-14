@@ -6,19 +6,21 @@ package org.stevesea;
  * return -1 if no pivot
  */
 public class FindPivotIndex {
-    public int findPivot(int[] A) {
-        long[] leftSums = new long[A.length];
-        long[] rightSums = new long[A.length];
+    public int findPivot(int[] inArray) {
+        // so this method can be O(N) instead of O(N^2), iterate just once over list
+        //   - iterate from both directions, and keep track of sum to left/right of current index.
+        long[] leftSums = new long[inArray.length];
+        long[] rightSums = new long[inArray.length];
         int i = 0;
-        int j = A.length - 1;
-        while (i < A.length && j >= 0) {
+        int j = inArray.length - 1;
+        while (i < inArray.length && j >= 0) {
             long sumleft = 0;
             if (i > 0) {
-                sumleft = leftSums[i - 1] + A[i - 1];
+                sumleft = leftSums[i - 1] + inArray[i - 1];
             }
             long sumright = 0;
-            if (j < A.length - 1) {
-                sumright = rightSums[j + 1] + A[j + 1];
+            if (j < inArray.length - 1) {
+                sumright = rightSums[j + 1] + inArray[j + 1];
             }
 
             leftSums[i] = sumleft;
