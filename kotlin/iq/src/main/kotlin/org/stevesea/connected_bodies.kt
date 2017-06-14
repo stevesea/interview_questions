@@ -25,25 +25,14 @@ class BodyFinder(val n: Int, val elevmap : List<List<Int>>) {
         }
     }
 
-
-    fun getElev(r: Int, c: Int) : Int {
-        return elevmap[r][c]
-    }
-    fun getVisited(r: Int, c: Int) : Boolean {
-        return visited[r][c]
-    }
-    fun setVisited(r: Int, c: Int, v: Boolean) {
-        visited[r][c] = v
-    }
-
     /**
      * @returns true: if valid matrix coords (not off edges) && not already visited && value in elevmap is zero
      */
     fun shouldVisit(r: Int, c: Int) : Boolean {
         return r in 0..(n - 1) &&
                 c in 0..(n - 1) &&
-                getElev(r,c) == 0 &&
-                !getVisited(r,c)
+                elevmap[r][c] == 0 &&
+                !visited[r][c]
     }
 
     /**
@@ -55,7 +44,7 @@ class BodyFinder(val n: Int, val elevmap : List<List<Int>>) {
         // the 'size' of the local subgraph is at least 1 (for current cell)
         // NOTE: we only reach this method IF the current cell is a water cell.
         var bodySize = 1
-        setVisited(r,c, true)
+        visited[r][c] = true
 
         // look at adjacent cells
         ((r-1)..(r+1)).forEach { i ->
