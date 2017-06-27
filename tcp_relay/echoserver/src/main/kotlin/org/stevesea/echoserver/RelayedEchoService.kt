@@ -26,7 +26,7 @@ import java.nio.channels.SocketChannel
  * after opening the additional socket to the relay-server, the echo-server
  * must write that exact clientID to the socket. any further traffic is
  * transmitted from/to the client
- * 
+ *
  */
 class RelayedEchoService(val relayhost: String, val relayport: Int) :
         AbstractExecutionThreadService(), KLoggable {
@@ -53,33 +53,36 @@ class RelayedEchoService(val relayhost: String, val relayport: Int) :
             val iterator = keys.iterator()
             while (iterator.hasNext()) {
                 val key = iterator.next()
-                val clientId  = key.attachment() as? String?
-                if (key.isValid && key.isReadable) {
-                    // if channel is messsage-channel to relay-server, look at message
-                    if (clientId.isNullOrBlank()) {
-                        try {
-                            handleMesssage(key)
-                        } catch (e: IOException) {
-                            // if it's an exception handling message, bail out
-                            logger.warn("Lost connection to relay-server. Shutting down.")
-                            logger.debug("${e.message}", e)
-                            key.channel().close()
-                            key.cancel()
-                            triggerShutdown()
-                        }
-                    } else {
-                        // otherwise, it's the echo channel
-                        try {
-                            echo(key.channel() as SocketChannel)
-                        } catch (e: IOException) {
-                            logger.warn("Lost connection to client ($clientId): ${e.message}")
-                            // if it's an exception echoing to client, close
-                            key.channel().close()
-                            key.cancel()
+                try {
+                    val clientId = key.attachment() as? String?
+                    if (key.isValid && key.isReadable) {
+                        // if channel is messsage-channel to relay-server, look at message
+                        if (clientId.isNullOrBlank()) {
+                            try {
+                                handleMesssage(key)
+                            } catch (e: IOException) {
+                                // if it's an exception handling message, bail out
+                                logger.warn("Lost connection to relay-server. Shutting down.")
+                                logger.debug("${e.message}", e)
+                                key.channel().close()
+                                key.cancel()
+                                triggerShutdown()
+                            }
+                        } else {
+                            // otherwise, it's the echo channel
+                            try {
+                                echo(key.channel() as SocketChannel)
+                            } catch (e: IOException) {
+                                logger.warn("Lost connection to client ($clientId): ${e.message}")
+                                // if it's an exception echoing to client, close
+                                key.channel().close()
+                                key.cancel()
+                            }
                         }
                     }
+                } finally {
+                    iterator.remove()
                 }
-                iterator.remove()
             }
         }
     }

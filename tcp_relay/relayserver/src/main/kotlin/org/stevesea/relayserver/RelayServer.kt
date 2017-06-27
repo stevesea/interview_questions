@@ -74,7 +74,6 @@ class RelayServer(val bindname: String,
     }
     fun returnPortToAvailable(p: Int) {
         synchronized(availablePorts_)  {
-            //TODO: Need to return ports after relay-requester dies
             availablePorts_.addLast(p)
         }
     }
@@ -114,8 +113,9 @@ class RelayServer(val bindname: String,
                     checkForRelayCleanup((key.channel() as SocketChannel).remoteAddress.toString())
                     key.channel().close()
                     key.cancel()
+                } finally {
+                    iterator.remove()
                 }
-                iterator.remove()
             }
         }
     }

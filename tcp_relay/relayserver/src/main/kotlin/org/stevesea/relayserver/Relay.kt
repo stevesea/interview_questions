@@ -101,8 +101,9 @@ class Relay(val port : Int, // port for the Relay
                             throw e
                         }
                         key.cancel()
+                    } finally {
+                        iterator.remove()
                     }
-                    iterator.remove()
                 }
             }
         } finally {
