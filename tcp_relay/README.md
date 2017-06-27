@@ -66,6 +66,8 @@ Prerequisites: JDK 8
     
     ```
     (or, use distTar if you prefer tgz)
+    
+    Look in ```./dist/build/distributions/``` for the archive file
 
 * Copy the archive file wherever, and unzip/untar it.
 * It will have created the directory structure
@@ -74,7 +76,7 @@ Prerequisites: JDK 8
     +---bin
     \---lib
     ```
-    The bin directory contains shell/batch scripts to run the relay and echoserver
+    The bin directory contains shell and batch scripts to run the relay and echoserver.
 
 
 ## Commandline  usage

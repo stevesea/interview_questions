@@ -37,6 +37,8 @@ internal fun execReadToString(vararg execCommand: String): String {
 
 /**
  * transfer data between incoming channel and outgoing channel.
+ *
+ * TODO: make the buffer size configurable/larger 
  */
 @Throws(IOException::class)
 fun transferBetweenChannels(chanIncoming: SocketChannel, chanOutgoing: SocketChannel, bufSize : Int = 1024) {
