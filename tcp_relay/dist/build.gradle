@@ -1,0 +1,24 @@
+group 'org.stevesea'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'distribution'
+distributions {
+    main {
+        baseName = "tcp_relay"
+        contents {
+            into('bin') {
+                from { project(':echoserver').startScripts.outputs.files }
+                from { project(':relayserver').startScripts.outputs.files }
+                fileMode = 0755
+            }
+            into('lib') {
+                def libs = []
+                libs << project(':echoserver').configurations.runtime - project(':relayserver').configurations.runtime
+                libs << project(':relayserver').configurations.runtime
+                from libs
+                from project(':echoserver').jar
+                from project(':relayserver').jar
+            }
+        }
+    }
+}

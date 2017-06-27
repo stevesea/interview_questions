@@ -1,0 +1,64 @@
+group 'org.stevesea'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.1.2'
+    ext.guava_version = '22.0'
+    ext.commons_lang3_version = '3.6'
+
+    // logging deps
+    ext.slf4j_version = '1.7.22'
+    ext.logback_version = '1.1.7'
+    ext.kotlin_logging_version = "1.4.5"
+
+    // CLI deps
+    ext.argparse4j_version = '0.7.0'
+
+    // testing deps
+    ext.junit_version = '4.12'
+
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'kotlin'
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    
+    dependencies {
+        compile group: "org.jetbrains.kotlin", name: "kotlin-stdlib-jre8", version: kotlin_version
+        testCompile group: 'junit', name: 'junit', version: junit_version
+        
+        compile group: 'com.google.guava', name: 'guava', version: guava_version
+        compile group: 'org.apache.commons', name: 'commons-lang3', version: commons_lang3_version
+
+        compile group: "io.github.microutils", name: "kotlin-logging", version: kotlin_logging_version
+    }
+
+    sourceSets {
+        test {
+            output.resourcesDir = output.classesDir
+        }
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+}

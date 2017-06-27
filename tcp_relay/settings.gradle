@@ -1,0 +1,5 @@
+rootProject.name = 'tcp_relay'
+include 'echoserver'
+include 'relayserver'
+include 'dist'
+

@@ -3,3 +3,8 @@ kotlin/iq/\.idea/
 kotlin/iq/target/
 
 *.iml
+
+tcp_relay/\.idea/
+tcp_relay/\.gradle/
+tcp_relay/build/
+tcp_relay/*/build/

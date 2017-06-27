@@ -1,0 +1,13 @@
+group 'org.stevesea'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'application'
+
+dependencies {
+    compile group: 'net.sourceforge.argparse4j', name: 'argparse4j', version: argparse4j_version
+
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: logback_version
+}
+
+mainClassName = 'org.stevesea.relayserver.RelayServerCLI'
+applicationName = 'relay'
