@@ -1,7 +1,7 @@
 # TCP Relay
 
 This project contains a TCP Relay and an EchoServer implementation that uses the relay. It is written
-in Kotlin, and uses Java NIO (and a small number of 3rd party libraries... Guava, commons-lang, 
+in Kotlin, and uses Java NIO (and a small number of 3rd party libraries: Guava, commons-lang, 
 argparse4j, slf4j/logback)
 
 ## Overview and Glossary
@@ -22,7 +22,7 @@ clientID it was just passed.
 
 #### Example: echo-server
 Included in this project is an example EchoServer. It registers itself with the relay-server,
-and responds to requests for client sockets.
+and responds to requests for client relay sockets.
 
 ### relay-client
 Any TCP client can communicate through the relay-server -- it just has to know the address of the host 
@@ -34,26 +34,25 @@ communicate with.
 To create your own service that uses the relay-server, do the following:
 * Open a TCP socket to the ```host:port``` where the relay-server is listening.
 * To request a new relay be created for you, write the message ```NewRelay``` to the socket.
-* The relay-server will respond with the ```host:port``` of the new relay for your service.
+* The relay-server will respond with the ```host:port``` of the new relay created for your service.
 * Once a client connects to the relay, the relay-server will send your service another message. This is
-  the relay-server's clientID for that client, and your service must open a new socket and write that
-  exact clientID.
+  the relay-server's clientID for that client, and your service must open a new socket to relay-server
+  and write that exact clientID to the socket.
 
 Example workflow:
 * relay-server is running on ```relayhost:8080```
     * the relay-server has been configured to use ports 8081-9081 for the relays it creates
 * your service is running on your dev box. 
-    * Connect to ```relayhost:8080```
-    * Write 'NewRelay'
-* relay-server responds with ```relayhost:8081```
+    * Connect to ```relayhost:8080``` and write 'NewRelay' to the socket
+* relay-server responds with ```relayhost:8081``` , the address of the relay created for your service
 * a TCP client application for your service is running on your friend's box. the client connects to
   ```relayhost:8081```
 * the relay-server sends your service a message with the clientId. 
    * in the current implementation, the ```clientId``` will look like ```<relayId>;<clientInfo>``` where 
    ```relayId``` is the address of the relay:```relayhost:8081```, and ```clientInfo``` is the remote 
     address of the client.
-   * your service should open a _new_ socket to ```relayhost:8080``` (NOTE: This is the port # of the 
-      relay server, _not_ the port # of the relay), and write the exact clientId to that socket.
+   * NOTE: your service should open a _new_ socket to ```relayhost:8080``` (IMPORTANT: This is the port # 
+      of the relay server, _not_ the port # of the relay). Your service must write the exact clientId to that socket.
 * once the new socket is connected, relay-server will start transferring any data from the client
    to that new socket and vice-versa.
 
@@ -61,7 +60,7 @@ Example workflow:
 
 Prerequisites: JDK 8
 
-* Create file for distribution
+* Create package for distribution
     ```
     > gradlew clean distZip
     
