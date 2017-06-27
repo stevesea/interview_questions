@@ -90,15 +90,16 @@ class RelayedEchoService(val relayhost: String, val relayport: Int) :
     /**
      * the channel has readable data, read anything available and write it back the channel
      */
+    val echoBuffer: ByteBuffer = ByteBuffer.allocate(2048)
     private fun echo(chan: SocketChannel) {
-        val buf = ByteBuffer.allocate(1024) // share a buffer?
-        var bytesRead = chan.read(buf)
+        echoBuffer.clear()
+        var bytesRead = chan.read(echoBuffer)
         while (bytesRead > 0) {
-            buf.flip()
-            chan.write(buf)
-            buf.clear()
+            echoBuffer.flip()
+            chan.write(echoBuffer)
+            echoBuffer.clear()
 
-            bytesRead = chan.read(buf)
+            bytesRead = chan.read(echoBuffer)
         }
     }
 

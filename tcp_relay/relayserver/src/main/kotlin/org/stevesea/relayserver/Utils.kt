@@ -34,24 +34,3 @@ internal fun execReadToString(vararg execCommand: String): String {
     }
 }
 
-
-/**
- * transfer data between incoming channel and outgoing channel.
- *
- * TODO: make the buffer size configurable/larger 
- */
-@Throws(IOException::class)
-fun transferBetweenChannels(chanIncoming: SocketChannel, chanOutgoing: SocketChannel, bufSize : Int = 1024) {
-    val buf = ByteBuffer.allocate(bufSize)
-
-    var bytesRead = chanIncoming.read(buf)
-    while (bytesRead > 0) {
-
-        buf.flip()
-
-        chanOutgoing.write(buf)
-
-        buf.clear() //make buffer ready for writing
-        bytesRead = chanIncoming.read(buf)
-    }
-}

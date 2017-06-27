@@ -4,6 +4,7 @@ import mu.KLoggable
 import java.io.IOException
 import java.lang.ref.WeakReference
 import java.net.InetSocketAddress
+import java.nio.ByteBuffer
 import java.nio.channels.SelectionKey
 import java.nio.channels.Selector
 import java.nio.channels.ServerSocketChannel
@@ -24,7 +25,8 @@ class Relay(val port : Int, // port for the Relay
             // we don't 'own' the message channel back to the relay-requester, it's the relay-server's.
             // when the Relay is shutdown, we should not close the relay (maybe the relay-requester
             // started up multiple relays)
-            val requesterMessageChannel: WeakReference<SocketChannel>
+            val requesterMessageChannel: WeakReference<SocketChannel>,
+            val xferBufferSize: Int = 2048
         ) : KLoggable, Runnable {
 
     override val logger = logger()
@@ -131,6 +133,27 @@ class Relay(val port : Int, // port for the Relay
             transferBetweenChannels(clientChannel, requesterChannel)
         } else {
             transferBetweenChannels(requesterChannel, clientChannel)
+        }
+    }
+
+    val xferBuffer: ByteBuffer = ByteBuffer.allocate(xferBufferSize)
+    /**
+     * transfer data between incoming channel and outgoing channel.
+     *
+     * TODO: make the buffer size configurable/larger
+     */
+    @Throws(IOException::class)
+    fun transferBetweenChannels(chanIncoming: SocketChannel, chanOutgoing: SocketChannel) {
+        xferBuffer.clear()
+
+        var bytesRead = chanIncoming.read(xferBuffer)
+        while (bytesRead > 0) {
+
+            xferBuffer.flip()
+            chanOutgoing.write(xferBuffer)
+            xferBuffer.clear() //make buffer ready for writing
+
+            bytesRead = chanIncoming.read(xferBuffer)
         }
     }
 
