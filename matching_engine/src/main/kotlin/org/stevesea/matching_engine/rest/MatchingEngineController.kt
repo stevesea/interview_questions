@@ -1,8 +1,8 @@
-package org.stevesea.sbe.matching_engine.rest
+package org.stevesea.matching_engine.rest
 
 import org.springframework.web.bind.annotation.*
-import org.stevesea.sbe.matching_engine.MatchingEngineService
-import org.stevesea.sbe.matching_engine.Order
+import org.stevesea.matching_engine.MatchingEngineService
+import org.stevesea.matching_engine.Order
 
 
 @RestController

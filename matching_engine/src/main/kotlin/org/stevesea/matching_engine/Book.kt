@@ -1,4 +1,4 @@
-package org.stevesea.sbe.matching_engine
+package org.stevesea.matching_engine
 
 import com.google.common.collect.ComparisonChain
 import com.google.common.collect.Ordering

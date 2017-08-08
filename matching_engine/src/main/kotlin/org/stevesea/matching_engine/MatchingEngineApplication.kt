@@ -1,4 +1,4 @@
-package org.stevesea.sbe
+package org.stevesea.matching_engine
 
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.boot.SpringApplication

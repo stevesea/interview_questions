@@ -1,4 +1,4 @@
-package org.stevesea.sbe.matching_engine
+package org.stevesea.matching_engine
 
 import org.junit.Assert
 import org.junit.Before
