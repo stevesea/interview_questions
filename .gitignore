@@ -8,3 +8,10 @@ tcp_relay/\.idea/
 tcp_relay/\.gradle/
 tcp_relay/build/
 tcp_relay/*/build/
+
+\.idea/
+matching_engine/\.idea/
+matching_engine/\.gradle/
+matching_engine/build/
+matching_engine/out/
+\.DS_Store
