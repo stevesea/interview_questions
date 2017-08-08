@@ -6,11 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
-open class SbeApplication {
+open class MatchingEngineApplication {
     @Bean
     open fun kotlinJacksonModule() = KotlinModule()
 }
 
 fun main(args: Array<String>) {
-    SpringApplication.run(SbeApplication::class.java, *args)
+    SpringApplication.run(MatchingEngineApplication::class.java, *args)
 }

@@ -30,7 +30,7 @@ repositories {
 }
 
 jar {
-    baseName = 'sbe-rest-service'
+    baseName = 'matching-engine-service'
     version = '0.1.0'
 }
 
